@@ -13,22 +13,45 @@
                     <th>Modbus Address</th>
                     <th>Holding Register</th>
                 </tr>
-                {% for n in range(1, 201) %}
-                <tr>
-                    <td>
-                        <input type="checkbox" name="select_{{n}}" id="select_{{n}}" onchange="unitSelected(this)">
-                    </td>
-                    <td>
-                        <input type="text" value="{{n}} / {{'%#x'%n}}" class="unit-number" readonly="readonly"/>
-                    </td>
-                    <td>
-                        <input type="text" value="1" class="modbus-address" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
-                    </td>
-                    <td>
-                        <input type="text" value="1" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
-                    </td>
-                </tr>
-                {% endfor %}
+                {% if units | length == 0 %}
+                    {% for n in range(1, 201) %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="select_{{n}}" id="select_{{n}}" onchange="unitSelected(this)">
+                        </td>
+                        <td>
+                            <input type="text" value="{{n}} / {{'%#x'%n}}" class="unit-number" readonly="readonly"/>
+                        </td>
+                        <td>
+                            <input type="text" value="1" class="modbus-address" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
+                        </td>
+                        <td>
+                            <input type="text" value="1" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    {% for unit in units %}
+                    <tr>
+                        <td>
+                            {% if unit.selected %}
+                                <input type="checkbox" checked name="select_{{loop.index}}" id="select_{{loop.index}}" onchange="unitSelected(this)">
+                            {% else %}
+                                <input type="checkbox" name="select_{{loop.index}}" id="select_{{loop.index}}" onchange="unitSelected(this)">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <input type="text" value="{{unit.id}}" class="unit-number" readonly="readonly"/>
+                        </td>
+                        <td>
+                            <input type="text" value="{{unit.address}}" class="modbus-address" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
+                        </td>
+                        <td>
+                            <input type="text" value="{{unit.register}}" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
             </table>
         </div>
         <div class="commands">
