@@ -1,5 +1,7 @@
 class Unit:
-    def __init__(self):
-        self.unit = 0
-        self.address = 0
-        self.register = 0
+    def __init__(self, selected=False, unit=0, address=0, register=0):
+        self.selected = selected
+        self.unit = unit
+        self.address = address
+        self.register = register
+    
