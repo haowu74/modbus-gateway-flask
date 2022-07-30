@@ -1,0 +1,37 @@
+
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+table{
+    border: 1px solid;
+    width: 60%;
+}
+
+tr {
+    border: 1px solid;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center; */
+}
+
+td, th {
+    border: 1px solid;
+}
+
+.commands {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+
+input[type=text] {
+    width: 100%;
+}

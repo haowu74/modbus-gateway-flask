@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Configure the Modbus Relays</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='cs/style.css') }}">
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    </head>
+    <body>
+        <div class="table-container">
+        <table>
+            <tr>
+                <th></th>
+                <th>Unit number (DEC / HEX)</th>
+                <th>Modbus Address</th>
+                <th>Holding Register</th>
+            </tr>
+            <tr>
+                    <td>
+                        <input type="checkbox" name="select1" id="select1">
+                    </td>
+                    <td>
+                        <input type="text" value="55 / 0x33" class="unit-number" onclick="this.focus();this.select()"/>
+                    </td>
+                    <td>
+                        <input type="text" value="1" class="modbus-address" onclick="this.focus();this.select()"/>
+                    </td>
+                    <td>
+                        <input type="text" value="1" class="holding-register" onclick="this.focus();this.select()"/>
+                    </td>
+            </tr>
+        </table>
+    </div>
+
+        <div class="commands">
+            <div>
+                <input type="button" value="Delete" />
+            </div>
+            <div>
+                <input type="button" value="Add" />
+            </div>
+            <div>
+                <input type="button" value="Save" onclick="save()" />
+            </div>
+        </div>
+    </body>
+</html>
