@@ -1,7 +1,7 @@
 function save(button) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/save", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     var units = [];
     for (var i = 1; i < 201; i++) {
         var row = button.parentElement.parentElement.parentElement.querySelector(`#select_${i}`).parentElement.parentElement;
