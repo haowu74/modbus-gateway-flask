@@ -2,9 +2,11 @@ from flask import Flask, render_template, jsonify
 import time
 import threading
 import sys
+from gateway import Gateway
 
 app = Flask(__name__)
 config_file = "config.json"
+gateway = Gateway()
 
 @app.route("/config")
 def configure():
@@ -15,13 +17,11 @@ def save():
     print("Saved")
     return jsonify(success=True) 
 
-def gateway():
-    while True:
-        time.sleep(5)
-        print('Hi there!')
+def modbus_worker():
+    gateway.loop()
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=gateway)
+    thread = threading.Thread(target=modbus_wworker)
     thread.daemon = True
     thread.start()
     app.run(debug=True)

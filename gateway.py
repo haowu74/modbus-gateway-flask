@@ -1,8 +1,12 @@
 from unit import Unit
+import serial
+import time
 
 class Gateway:
     def __init__(self, file):
         self.file = file
+        self.usb = serial.Serial(port = '/dev/ttyUSB0', baudrate = 19200, parity = serial.PARITY_NONE, stopbits = 1, bytesize = 8, timeout = 0)
+
 
     def add_unit(self, unit):
         self.units.append(unit)
@@ -24,4 +28,11 @@ class Gateway:
 
     def trigger(self, unit, lock=True):
         pass
+
+    def loop(self):
+        while True:
+            time.sleep(1)
+            bytes = self.usb.read(100)
+            
+            print(' '.join('{:02X}'.format(a) for a in bytes))
 

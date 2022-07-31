@@ -1,0 +1,16 @@
+automationhat==0.2.0
+drumhat==0.1.0
+envirophat==1.0.0
+ExplorerHAT==0.4.2
+Flask==1.1.2
+fourletterphat==0.1.0
+gpiozero==1.6.2
+html5lib==1.1
+Jinja2==2.11.3
+pyserial==3.5b0
+rainbowhat==0.1.0
+requests==2.25.1
+requests-oauthlib==1.0.0
+responses==0.12.1
+RPi.GPIO==0.7.0
+urllib3==1.26.5
