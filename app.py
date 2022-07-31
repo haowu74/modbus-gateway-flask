@@ -5,13 +5,17 @@ from os.path import exists
 
 app = Flask(__name__)
 config_file = "config.json"
-users_file = "users.json"
+users_file = "./users.json"
+
+@app.route("/login")
+def login():
+    return render_template('login.html', template_name="Jinja2")
 
 @app.route("/config")
 def configure():
     units = []
-    if exists(users_file):
-        with open(users_file, 'r') as f:
+    if exists(config_file):
+        with open(config_file, 'r') as f:
             units = json.load(f)
             # print(units)
     return render_template('config.html', units=units, template_name="Jinja2")
@@ -19,7 +23,7 @@ def configure():
 @app.route("/save", methods=['POST'])
 def save():
     units = json.loads(request.data)
-    with open(users_file, 'w') as f:
+    with open(config_file, 'w') as f:
         json.dump(units, f)
     return jsonify(success=True) 
 
