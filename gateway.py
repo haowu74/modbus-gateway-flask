@@ -4,10 +4,12 @@ import serial
 import time
 from os.path import exists
 from flask import json
+import crcmod
 
 class Gateway:
     def __init__(self, file):
         self.file = file
+        self.crc = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
         if exists(file):
             with open(file, 'r') as f:
                 units = json.load(f)
@@ -35,8 +37,17 @@ class Gateway:
         self.units.clear()
 
     def writeRegister(self, address, register, value):
-        bytes = b''
-        self.modbus.write(bytes)
+        bytes = [0] * 8
+        bytes[0] = address
+        bytes[1] = 0x6
+        bytes[2] = register & 0xff00 >> 8
+        bytes[3] = register & 0xff
+        bytes[4] = value & 0xff00 >> 8
+        bytes[5] = value & 0xff
+        crc = self.crc(bytes[0:6])
+        bytes[6] = crc & 0xff
+        bytes[7] = crc & 0xff00 >> 8
+        self.modbus.write(bytes[0:8])
 
     def trigger(self, id, lock=True):
         unit = filter(lambda x: x.unit == id, self.units)
