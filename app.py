@@ -6,11 +6,12 @@ from os.path import exists
 
 app = Flask(__name__)
 config_file = "config.json"
-gateway = Gateway()
 
 app = Flask(__name__)
 config_file = "config.json"
 users_file = "./users.json"
+
+gateway = Gateway(config_file)
 
 @app.route("/login")
 def login():
@@ -36,7 +37,7 @@ def modbus_worker():
     gateway.loop()
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=modbus_wworker)
+    thread = threading.Thread(target=modbus_worker)
     thread.daemon = True
     thread.start()
 
