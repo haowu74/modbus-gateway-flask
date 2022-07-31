@@ -9,11 +9,13 @@ function save(button) {
         var id = row.querySelector(".unit-number").value;
         var address = row.querySelector(".modbus-address").value;
         var register = row.querySelector(".holding-register").value;
+        var delay = row.querySelector(".delay-time").value;
         var unit = {
             selected: selected,
             id: id,
             address: address,
             register: register,
+            delay: delay
         }
         units.push(unit);
     }
@@ -30,6 +32,12 @@ function registerChanged(text) {
     if (isNaN(parseFloat(text.value)) ) {
         text.value = text.oldValue;
     }
+}
+
+function delayChanged(text) {
+    if (isNaN(parseFloat(text.value)) ) {
+        text.value = text.oldValue;
+    }   
 }
 
 function unitSelected(checkbox) {

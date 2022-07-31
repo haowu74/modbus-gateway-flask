@@ -12,6 +12,7 @@
                     <th>Unit number (DEC / HEX)</th>
                     <th>Modbus Address</th>
                     <th>Holding Register</th>
+                    <th>Delay Time (seconds)</th>
                 </tr>
                 {% if units | length == 0 %}
                     {% for n in range(1, 201) %}
@@ -27,6 +28,9 @@
                         </td>
                         <td>
                             <input type="text" value="1" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
+                        </td>
+                        <td>
+                            <input type="text" value="1" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
                         </td>
                     </tr>
                     {% endfor %}
@@ -48,6 +52,9 @@
                         </td>
                         <td>
                             <input type="text" value="{{unit.register}}" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
+                        </td>
+                        <td>
+                            <input type="text" value="{{unit.delay}}" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
                         </td>
                     </tr>
                     {% endfor %}

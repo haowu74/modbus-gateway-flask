@@ -36,14 +36,14 @@ class Gateway:
     def clear(self):
         self.units.clear()
 
-    def writeRegister(self, address, register, value):
+    def writeRegister(self, address, register, command, delay):
         bytes = [0] * 8
         bytes[0] = address
         bytes[1] = 0x6
         bytes[2] = register & 0xff00 >> 8
         bytes[3] = register & 0xff
-        bytes[4] = value & 0xff00 >> 8
-        bytes[5] = value & 0xff
+        bytes[4] = command
+        bytes[5] = delay
         crc = self.crc(bytes[0:6])
         bytes[6] = crc & 0xff
         bytes[7] = crc & 0xff00 >> 8
@@ -54,7 +54,8 @@ class Gateway:
         if unit is not None and unit.selected:
             address = unit.address
             register = unit.register
-            self.writeRegister(address, register, 0x100)
+            delay = unit.delay
+            self.writeRegister(address, register, 0x1, delay)
 
     def loop(self):
         while True:
