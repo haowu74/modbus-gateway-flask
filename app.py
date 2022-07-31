@@ -23,6 +23,7 @@ def configure():
     if exists(config_file):
         with open(config_file, 'r') as f:
             units = json.load(f)
+            gateway.units = units
             # print(units)
     return render_template('config.html', units=units, template_name="Jinja2")
 

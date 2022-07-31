@@ -1,10 +1,19 @@
+import imp
 from unit import Unit
 import serial
 import time
+from os.path import exists
+from flask import json
 
 class Gateway:
     def __init__(self, file):
         self.file = file
+        if exists(file):
+            with open(file, 'r') as f:
+                units = json.load(f)
+                self.units = units
+        else:
+            self.units = []
         self.usb = serial.Serial(port = '/dev/ttyUSB0', baudrate = 19200, parity = serial.PARITY_NONE, stopbits = 1, bytesize = 8, timeout = 0)
 
 
@@ -35,4 +44,10 @@ class Gateway:
             bytes = self.usb.read(100)
             
             print(' '.join('{:02X}'.format(a) for a in bytes))
+
+    def isLock(self, bytes):
+        pass
+
+    def isUnlock(self, bytes):
+        pass
 
