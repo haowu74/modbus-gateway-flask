@@ -16,9 +16,10 @@ class Gateway:
                 self.units = units
         else:
             self.units = []
-        self.usb = serial.Serial(port = '/dev/ttyUSB0', baudrate = 19200, parity = serial.PARITY_NONE, \
+        self.usb = serial.Serial(port='/dev/ttyUSB0', baudrate=19200, parity=serial.PARITY_NONE, \
             stopbits = 1, bytesize = 8, timeout = 0)
-        # self.modbus = serial.Serial()
+        self.modbus = serial.Serial(port='/dev/ttyAMA0', baudrate=9600, parity=serial.PARITY_EVEN, \
+            stopbits = 1, bytesize = 8, timeout = 0)
 
 
     def add_unit(self, unit):
