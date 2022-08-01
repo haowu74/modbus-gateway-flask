@@ -1,6 +1,8 @@
 import imp
 from unit import Unit
 import serial
+import serial.rs485
+import RPi.GPIO as GPIO
 import time
 from os.path import exists
 from flask import json
@@ -8,6 +10,7 @@ import crcmod
 
 class Gateway:
     def __init__(self, file):
+        print('init gateway')
         self.file = file
         self.crc = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
         if exists(file):
@@ -16,11 +19,10 @@ class Gateway:
                 self.units = units
         else:
             self.units = []
-        self.usb = serial.Serial(port='/dev/ttyUSB0', baudrate=19200, parity=serial.PARITY_NONE, \
-            stopbits = 1, bytesize = 8, timeout = 0)
-        self.modbus = serial.Serial(port='/dev/ttyAMA0', baudrate=9600, parity=serial.PARITY_EVEN, \
-            stopbits = 1, bytesize = 8, timeout = 0)
-
+        GPIO.setmode(GPIO.BOARD)
+        self.usb = serial.Serial(port='/dev/ttyUSB0',baudrate=19200,parity=serial.PARITY_NONE, stopbits = 1, bytesize = 8, timeout = 0)
+        self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=0)
+        self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=19200,parity=serial.PARITY_EVEN)
 
     def add_unit(self, unit):
         self.units.append(unit)
@@ -38,35 +40,38 @@ class Gateway:
         self.units.clear()
 
     def writeRegister(self, address, register, command, delay):
-        bytes = [0] * 8
-        bytes[0] = address
-        bytes[1] = 0x6
-        bytes[2] = register & 0xff00 >> 8
-        bytes[3] = register & 0xff
-        bytes[4] = command
-        bytes[5] = delay
-        crc = self.crc(bytes[0:6])
-        bytes[6] = crc & 0xff
-        bytes[7] = crc & 0xff00 >> 8
-        self.modbus.write(bytes[0:8])
+        msg = [0] * 8
+        msg[0] = address
+        msg[1] = 0x6
+        msg[2] = register & 0xff00 >> 8
+        msg[3] = register & 0xff
+        msg[4] = command
+        msg[5] = delay
+        crc = self.crc(bytes(msg[0:6]))
+        msg[6] = crc & 0xff
+        msg[7] = crc & 0xff00 >> 8
+        print('Modbus: '+' '.join('{:02X}'.format(a) for a in msg))
+        self.modbus.write(bytes(msg[0:8]))
 
     def trigger(self, id, lock=True):
-        unit = filter(lambda x: x.unit == id, self.units)
-        if unit is not None and unit.selected:
-            address = unit.address
-            register = unit.register
-            delay = unit.delay
-            self.writeRegister(address, register, 0x1, delay)
+        #print(self.units)
+        if len(self.units) >0:
+            units = list(filter(lambda x: int(x['id'].split('/')[0]) == id, self.units))
+            if units is not None and len(units) > 0 and units[0]['selected']:
+                address = int(units[0]['address'])
+                register = int(units[0]['register'])
+                delay = int(units[0]['delay'])
+                self.writeRegister(address, register, 0x1, delay)
 
     def loop(self):
         while True:
             time.sleep(1)
             bytes = self.usb.read(100)
             print(' '.join('{:02X}'.format(a) for a in bytes))
-
-            id = self.getReleaseDoorUnit(bytes)
-            if id > 0:
-                self.trigger(id)
+            if len(bytes) >= 9:
+                id = self.getReleaseDoorUnit(bytes)
+                if id > 0:
+                    self.trigger(id)
 
 
     def isDoorReleaseCommand(self, bytes):

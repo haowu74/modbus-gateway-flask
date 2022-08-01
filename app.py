@@ -6,9 +6,6 @@ from os.path import exists
 
 app = Flask(__name__)
 config_file = "config.json"
-
-app = Flask(__name__)
-config_file = "config.json"
 users_file = "./users.json"
 
 gateway = Gateway(config_file)
