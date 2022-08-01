@@ -47,13 +47,13 @@ class Gateway:
         msg = [0] * 8
         msg[0] = address
         msg[1] = 0x6
-        msg[2] = register & 0xff00 >> 8
+        msg[2] = (register & 0xff00) >> 8
         msg[3] = register & 0xff
         msg[4] = command
         msg[5] = 0
         crc = self.crc(bytearray(msg[0:6]))
         msg[6] = crc & 0xff
-        msg[7] = crc & 0xff00 >> 8
+        msg[7] = (crc & 0xff00) >> 8
         print('Modbus: '+' '.join('{:02X}'.format(a) for a in msg))
         self.modbus.write(bytes(msg[0:8]))
 
