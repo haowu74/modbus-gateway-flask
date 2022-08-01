@@ -71,7 +71,7 @@ class Gateway:
                 address = int(units[0]['address'])
                 register = int(units[0]['register'])
                 delay = int(units[0]['delay'])
-                self.writeRegister(id, address, register, 0x1, delay)
+                self.writeRegister(id, address, register, delay)
 
     def loop(self):
         while True:
