@@ -1,4 +1,5 @@
 import imp
+import threading
 from unit import Unit
 import serial
 import serial.rs485
@@ -12,6 +13,7 @@ class Gateway:
     def __init__(self, file):
         print('init gateway')
         self.file = file
+        self.delay_timer = [threading.Timer(0, None)] * 200
         self.crc = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
         if exists(file):
             with open(file, 'r') as f:
@@ -21,8 +23,10 @@ class Gateway:
             self.units = []
         GPIO.setmode(GPIO.BOARD)
         self.usb = serial.Serial(port='/dev/ttyUSB0',baudrate=19200,parity=serial.PARITY_NONE, stopbits = 1, bytesize = 8, timeout = 0)
+        GPIO.setup(7, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.output(7, 1)
         self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=0)
-        self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=19200,parity=serial.PARITY_EVEN)
+        self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=9600,parity=serial.PARITY_EVEN)
 
     def add_unit(self, unit):
         self.units.append(unit)
@@ -39,19 +43,25 @@ class Gateway:
     def clear(self):
         self.units.clear()
 
-    def writeRegister(self, address, register, command, delay):
+    def operateRelay(self, address, register, command):
         msg = [0] * 8
         msg[0] = address
         msg[1] = 0x6
         msg[2] = register & 0xff00 >> 8
         msg[3] = register & 0xff
         msg[4] = command
-        msg[5] = delay
+        msg[5] = 0
         crc = self.crc(bytes(msg[0:6]))
         msg[6] = crc & 0xff
         msg[7] = crc & 0xff00 >> 8
         print('Modbus: '+' '.join('{:02X}'.format(a) for a in msg))
         self.modbus.write(bytes(msg[0:8]))
+
+    def writeRegister(self, id, address, register, delay):
+        self.delay_timer[id].cancel()
+        self.operateRelay(address, register, 1)
+        self.delay_timer[id] = threading.Timer(delay, lambda: self.operateRelay(address, register, 2))
+        self.delay_timer[id].start()
 
     def trigger(self, id, lock=True):
         #print(self.units)
@@ -61,7 +71,7 @@ class Gateway:
                 address = int(units[0]['address'])
                 register = int(units[0]['register'])
                 delay = int(units[0]['delay'])
-                self.writeRegister(address, register, 0x1, delay)
+                self.writeRegister(id, address, register, 0x1, delay)
 
     def loop(self):
         while True:
