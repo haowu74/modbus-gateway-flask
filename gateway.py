@@ -77,7 +77,8 @@ class Gateway:
         while True:
             time.sleep(1)
             bytes = self.usb.read(100)
-            print(' '.join('{:02X}'.format(a) for a in bytes))
+            if len(bytes) > 0:
+                print(' '.join('{:02X}'.format(a) for a in bytes))
             if len(bytes) >= 9:
                 id = self.getReleaseDoorUnit(bytes)
                 if id > 0:
