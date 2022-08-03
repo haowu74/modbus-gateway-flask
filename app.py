@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, json, redirect, url_for
-from flask_login import login_user, logout_user, login_required
+# from flask_login import login_user, logout_user, login_required
 import time
 import threading
 from gateway import Gateway
@@ -16,7 +16,7 @@ def login():
     return render_template('login.html', template_name="Jinja2")
 
 @app.route("/config")
-@login_required
+# @login_required
 def configure():
     units = []
     if exists(config_file):
