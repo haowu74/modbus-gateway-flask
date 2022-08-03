@@ -4,10 +4,12 @@ import time
 import threading
 from gateway import Gateway
 from os.path import exists
+from hashlib import blake2b
 
 app = Flask(__name__)
 config_file = "config.json"
 users_file = "./users.json"
+sha = hashlib.sha256()
 
 gateway = Gateway(config_file)
 
@@ -41,8 +43,12 @@ def login_post():
     with open(users_file, 'r') as f:
         users = json.load(f)
         for key in users:
-            if key == str(hash(username)):
-                if users[key] == str(hash(password)):
+            h = blake2b()
+            h.update(str.encode(username))
+            if key == h.hexdigest():
+                h = blake2b()
+                h.update(str.encode(password))
+                if users[key] == h.hexdigest():
                     return redirect(url_for('configure'))
     return render_template('login.html')
 
