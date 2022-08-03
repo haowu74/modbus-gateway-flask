@@ -9,7 +9,6 @@ from hashlib import blake2b
 app = Flask(__name__)
 config_file = "config.json"
 users_file = "./users.json"
-sha = hashlib.sha256()
 
 gateway = Gateway(config_file)
 
