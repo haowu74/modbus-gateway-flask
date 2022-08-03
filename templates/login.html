@@ -5,7 +5,7 @@
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </head>
     <body>
-        <img src="images/logo2.png" alt="" />
+        <img src="{{url_for('static', filename='images/logo2.jpg')}}" />
         <form action="" method = "POST">
             <p>email <input type="username" name="username" /></p>
             <p>password <input type="password" name="password" /></p>
