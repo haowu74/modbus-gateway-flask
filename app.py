@@ -44,10 +44,14 @@ def login_post():
         for key in users:
             h = blake2b()
             h.update(str.encode(username))
+            print(h.hexdigest())
+            
             if key == h.hexdigest():
                 h = blake2b()
                 h.update(str.encode(password))
+                print(h.hexdigest())
                 if users[key] == h.hexdigest():
+                    print('redirect')
                     return redirect(url_for('configure'))
     return render_template('login.html')
 
