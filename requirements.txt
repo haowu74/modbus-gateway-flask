@@ -3,6 +3,7 @@ drumhat==0.1.0
 envirophat==1.0.0
 ExplorerHAT==0.4.2
 Flask==1.1.2
+Flask-Login==0.5.0
 fourletterphat==0.1.0
 gpiozero==1.6.2
 html5lib==1.1

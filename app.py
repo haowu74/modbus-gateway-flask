@@ -1,4 +1,5 @@
-from flask import Flask, render_template, jsonify, request, json
+from flask import Flask, render_template, jsonify, request, json, redirect, url_for
+from flask_login import login_user, logout_user, login_required
 import time
 import threading
 from gateway import Gateway
@@ -15,6 +16,7 @@ def login():
     return render_template('login.html', template_name="Jinja2")
 
 @app.route("/config")
+@login_required
 def configure():
     units = []
     if exists(config_file):
@@ -29,7 +31,20 @@ def save():
     units = json.loads(request.data)
     with open(config_file, 'w') as f:
         json.dump(units, f)
-    return jsonify(success=True) 
+    return jsonify(success=True)
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    # login code goes here
+    username = request.form['username']
+    password = request.form['password']
+    with open(users_file, 'r') as f:
+        users = json.load(f)
+        for key in users:
+            if key == hash(username):
+                if users[key] == hash(password):
+                    return redirect(url_for('configure'))
+    return render_template('login.html')
 
 def modbus_worker():
     gateway.loop()
