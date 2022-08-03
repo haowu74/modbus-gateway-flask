@@ -41,8 +41,8 @@ def login_post():
     with open(users_file, 'r') as f:
         users = json.load(f)
         for key in users:
-            if key == hash(username):
-                if users[key] == hash(password):
+            if key == str(hash(username)):
+                if users[key] == str(hash(password)):
                     return redirect(url_for('configure'))
     return render_template('login.html')
 
