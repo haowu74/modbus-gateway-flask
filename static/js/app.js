@@ -58,3 +58,28 @@ function logout() {
 	    location.href = "/login";
 	});
 }
+
+function download() {
+    // const xhttp = new XMLHttpRequest();
+    // xhttp.open("POST", "/download", true);
+    // xhttp.setRequestHeader("Content-type", "text/csv; charset=UTF-8");
+    // xhttp.send(JSON.stringify({download: true}));
+    fetch("/download", {method:"POST"})
+	.then((res)=> {
+	    return res.blob();
+	}).then(blob => {
+	    var a = document.createElement("a");
+	    a.href = URL.createObjectURL(blob);
+	    a.setAttribute("download", "config.csv");
+	    a.click();
+	    a.remove();
+	});
+}
+
+
+function upload() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/upload", true);
+    xhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhttp.send();
+}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, json, redirect, url_for, make_response
+from flask import Flask, render_template, jsonify, request, json, redirect, url_for, make_response, send_file
 import time
 import threading
 from gateway import Gateway
@@ -90,6 +90,16 @@ def login_post():
                     return res
                     #return redirect(url_for('configure'))
     return render_template('login.html')
+
+@app.route('/download', methods=['POST'])
+def download():
+    print('download')
+    return send_file(config_file, as_attachment=True)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    print('upload')
+    return jsonify(success=True)
 
 def modbus_worker():
     gateway.loop()
