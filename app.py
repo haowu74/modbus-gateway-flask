@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, json, redirect, url_for
+from flask import Flask, render_template, jsonify, request, json, redirect, url_for, send_file
 # from flask_login import login_user, logout_user, login_required
 import time
 import threading
@@ -50,6 +50,15 @@ def login_post():
                 if users[key] == h.hexdigest():
                     return redirect(url_for('configure'))
     return render_template('login.html')
+
+@app.route('/download', methods=['POST'])
+def download():
+    print('download')
+    send_file(config_file, as_attachment=True)
+
+@app.route('/upload', methods=['POST'])
+def download():
+    print('upload')
 
 def modbus_worker():
     gateway.loop()

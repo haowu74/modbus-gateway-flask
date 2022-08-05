@@ -52,3 +52,16 @@ function unitSelected(checkbox) {
     }
 }
 
+function download() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/download", true);
+    xhttp.setRequestHeader("Content-type", "text/csv; charset=UTF-8");
+    xhttp.send();
+}
+
+function upload() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/upload", true);
+    xhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhttp.send();
+}
