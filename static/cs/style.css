@@ -1,4 +1,11 @@
 
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #36454F
+}
 
 .table-container {
     display: flex;
@@ -10,6 +17,7 @@
 table{
     border: 1px solid;
     width: 60%;
+    color: white;
 }
 
 tr {
@@ -38,4 +46,16 @@ input[type=text] {
 
 input[type=text]:read-only {
     background-color: #eee;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    color: white;
+}
+
+.login > div {
+    margin: 6px;
 }

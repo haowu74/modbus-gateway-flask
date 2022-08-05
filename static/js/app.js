@@ -52,3 +52,9 @@ function unitSelected(checkbox) {
     }
 }
 
+function logout() {
+    fetch("/logout", {method:"POST"})
+	.then((res)=> {
+	    location.href = "/login";
+	});
+}
