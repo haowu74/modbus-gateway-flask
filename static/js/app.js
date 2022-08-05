@@ -70,7 +70,7 @@ function download() {
 	}).then(blob => {
 	    var a = document.createElement("a");
 	    a.href = URL.createObjectURL(blob);
-	    a.setAttribute("download", "config.csv");
+	    a.setAttribute("download", "config.json");
 	    a.click();
 	    a.remove();
 	});
