@@ -60,10 +60,6 @@ function logout() {
 }
 
 function download() {
-    // const xhttp = new XMLHttpRequest();
-    // xhttp.open("POST", "/download", true);
-    // xhttp.setRequestHeader("Content-type", "text/csv; charset=UTF-8");
-    // xhttp.send(JSON.stringify({download: true}));
     fetch("/download", {method:"POST"})
 	.then((res)=> {
 	    return res.blob();

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, json, redirect, url_for, make_response, send_file
+from flask import Flask, render_template, jsonify, request, json, redirect, url_for, make_response, send_file, flash
 import time
 import threading
 from gateway import Gateway
@@ -6,6 +6,7 @@ from os.path import exists
 from hashlib import blake2b
 import random
 import jwt
+import os
 
 app = Flask(__name__)
 config_file = "config.json"
@@ -93,13 +94,24 @@ def login_post():
 
 @app.route('/download', methods=['POST'])
 def download():
-    print('download')
     return send_file(config_file, as_attachment=True)
 
 @app.route('/upload', methods=['POST'])
 def upload():
     print('upload')
-    return jsonify(success=True)
+    if 'file' not in request.files:
+        flash('No file part')
+        return jsonify(success=False)
+    file = request.files['file']
+    # If the user does not select a file, the browser submits an
+    # empty file without a filename.
+    if file.filename == '':
+        flash('No selected file')
+        return jsonify(success=False)
+    if file and file.filename == 'config.json':
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        return jsonify(success=True)
+    return jsonify(success=False)
 
 def modbus_worker():
     gateway.loop()
