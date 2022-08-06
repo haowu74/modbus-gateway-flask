@@ -73,9 +73,11 @@ function download() {
 }
 
 
-function upload() {
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/upload", true);
-    xhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    xhttp.send();
+async function upload() {
+    let formData = new FormData();
+    formData.append("file", fileupload.files[0]);
+    await fetch("/upload", {
+	method:"POST",
+        body: formData
+    });
 }

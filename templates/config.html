@@ -5,8 +5,13 @@
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </head>
     <body>
-        <img class="logo" src="{{url_for('static', filename='images/logo1.png')}}" />
-        <div class="table-container">
+	<div class="logo-container">
+            <img class="logo" src="{{url_for('static', filename='images/logo1.png')}}" />
+	</div>
+	<div class="logo-placeholder">
+	</div>
+
+	<div class="table-container">
             <table>
                 <tr>
                     <th><input type="checkbox" name="select_all" id="select_all"></th>
@@ -62,16 +67,17 @@
                 {% endif %}
             </table>
         </div>
+	<div class="commands-placeholder">
+	</div>
         <div class="commands">
             <div>
                 <input type="button" value="Download" onclick="download()"/>
             </div>
             <div>
                 <div class="upload-btn-wrapper">
-                    <input class="button" onClick ="upload()" value="Upload/">
-                    <input type="file" name="myfile"/>
+		    <button class="upload" onclick="upload()">Upload</button>
+		    <input type="file" id="fileupload" onchange="upload()"/>
                  </div>
-                <input type="button" value="Upload" onclick="upload()"/>
             </div>
             <div>
                 <input type="button" value="Save" onclick="save(this)"/>

@@ -105,11 +105,13 @@ def upload():
     file = request.files['file']
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
+    print(file.filename)
     if file.filename == '':
         flash('No selected file')
         return jsonify(success=False)
     if file and file.filename == 'config.json':
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        file.save(file.filename)
+        print('config uploaded')
         return jsonify(success=True)
     return jsonify(success=False)
 
@@ -120,5 +122,5 @@ if __name__ == '__main__':
     thread = threading.Thread(target=modbus_worker)
     thread.daemon = True
     thread.start()
-
-    app.run(debug=True)
+    app.secret_key = 'isecurity_modbus'
+    app.run(debug=True, host='0.0.0.0', port=3000)
