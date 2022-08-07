@@ -64,15 +64,22 @@ function unitSelected(checkbox) {
     }
 }
 
-function logout() {
-    fetch("/logout", {method:"POST"})
+async function logout() {
+    await fetch("/logout", {method:"POST"})
 	.then((res)=> {
 	    location.href = "/login";
 	});
 }
 
-function download() {
-    fetch("/download", {method:"POST"})
+async function admin() {
+	await fetch("/admin")
+	.then((res) => {
+		location.href = "/admin";
+	});
+}
+
+async function download() {
+    await fetch("/download", {method:"POST"})
 	.then((res)=> {
 	    return res.blob();
 	}).then(blob => {

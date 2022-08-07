@@ -84,7 +84,10 @@
             </div>
 	    <div>
 		<input type="button" value="Logout" onclick="logout()"/>
-	    </div>
+		{% if is_admin %}
+		<input type="button" value="Admin" onclick="admin()"/>
+		{% endif %}
+		</div>
         </div>
 		<dialog id="upload-success">
 			<p>Configuration is uploaded successfully.</p>

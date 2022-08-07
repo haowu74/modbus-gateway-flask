@@ -32,12 +32,14 @@ def jwtSign(username):
         }, JWT_KEY, algorithm=JWT_ALGO)
 
 def jwtVerify(cookies):
+    current_user = ""
     try:
         token = cookies.get("JWT")
         decoded = jwt.decode(token, JWT_KEY, algorithms=[JWT_ALGO])
-        return True
+        current_user = decoded['data']['username']
+        return current_user
     except:
-        return False
+        return ""
 
 @app.route("/logout", methods=["POST"])
 def logout():
@@ -47,21 +49,32 @@ def logout():
 
 @app.route("/login")
 def login():
-    if jwtVerify(request.cookies):
+    if jwtVerify(request.cookies) != "":
         return redirect(url_for("configure"))
     else:
         return render_template('login.html', template_name="Jinja2")
 
 @app.route("/config")
 def configure():
-    if jwtVerify(request.cookies):
+    current_user = jwtVerify(request.cookies) 
+    if current_user != "":
         units = []
         if exists(config_file):
             with open(config_file, 'r') as f:
                 units = json.load(f)
                 gateway.units = units
                 # print(units)
-        return render_template('config.html', units=units, template_name="Jinja2")
+        is_admin = current_user == "admin"
+        print(current_user)
+        return render_template('config.html', units=units, is_admin=is_admin, template_name="Jinja2")
+    else:
+        return redirect(url_for("login"))
+
+@app.route("/admin")
+def admin():
+    current_user = jwtVerify(request.cookies)
+    if current_user == "admin":
+        return render_template('admin.html', template_name='Jinja2')
     else:
         return redirect(url_for("login"))
 
@@ -113,6 +126,8 @@ def upload():
         print('config uploaded')
         return jsonify(success=True)
     return jsonify(success=False)
+
+
 
 def modbus_worker():
     gateway.loop()
