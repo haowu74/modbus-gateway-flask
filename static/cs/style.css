@@ -109,3 +109,8 @@ input[type=text]:read-only {
 	height: 30px;
 	font-size: 15px;
 }
+
+#add-new-user-dlg {
+    display: flex;
+    flex-direction: row;
+}
