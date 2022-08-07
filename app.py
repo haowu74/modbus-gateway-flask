@@ -150,6 +150,7 @@ def add_new_user():
         h = blake2b()
         h.update(str.encode(password))
         users[username] = h.hexdigest()
+        f.seek(0)
         json.dump(users, f)
     return jsonify(success=True)
 
