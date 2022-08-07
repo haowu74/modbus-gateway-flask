@@ -75,11 +75,12 @@ def admin():
     current_user = jwtVerify(request.cookies)
     if current_user == "admin":
         users = []
+        usernames = []
         if exists(users_file):
             with open(users_file, 'r') as f:
                 users = json.load(f)
-
-        return render_template('admin.html', template_name='Jinja2')
+                usernames = [x.id for x in users]
+        return render_template('admin.html', usernames=usernames, template_name='Jinja2')
     else:
         return redirect(url_for("login"))
 

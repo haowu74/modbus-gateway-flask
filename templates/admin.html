@@ -14,106 +14,57 @@
 	<div class="table-container">
         <table>
             <tr>
-                <th></th>
                 <th>Username</th>
                 <th>Change Password</th>
-                <th>Trial Period</th>
+                <th>Trial Period (days)</th>
                 <th>Reset Trial Period</th>
                 <th>Delete</th>
             </tr>
-            {% if units | length == 0 %}
-                {% for n in range(1, 201) %}
-                <tr>
-                    <td>
-                        <input type="checkbox" name="select_{{n}}" id="select_{{n}}" onchange="unitSelected(this)">
-                    </td>
-                    <td>
-                        <input type="text" value="{{n}} / {{'%#x'%n}}" class="unit-number" readonly="readonly"/>
-                    </td>
-                    <td>
-                        <input type="text" value="1" class="modbus-address" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
-                    </td>
-                    <td>
-                        <input type="text" value="1" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
-                    </td>
-                    <td>
-                        <input type="text" value="1" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% else %}
-                {% for unit in units %}
-                <tr>
-                    <td>
-                        {% if unit.selected %}
-                            <input type="checkbox" checked name="select_{{loop.index}}" id="select_{{loop.index}}" onchange="unitSelected(this)">
-                        {% else %}
-                            <input type="checkbox" name="select_{{loop.index}}" id="select_{{loop.index}}" onchange="unitSelected(this)">
-                        {% endif %}
-                    </td>
-                    <td>
-                        <input type="text" value="{{unit.id}}" class="unit-number" readonly="readonly"/>
-                    </td>
-                    <td>
-                        <input type="text" value="{{unit.address}}" class="modbus-address" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
-                    </td>
-                    <td>
-                        <input type="text" value="{{unit.register}}" class="holding-register" onclick="this.focus();this.select()" onchange="registerChanged(this.oldValue, this.value)"/>
-                    </td>
-                    <td>
-                        <input type="text" value="{{unit.delay}}" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% endif %}
+            {% for username in usernames %}
+            <tr>
+                <td>
+                    <p>username</p>
+                </td>
+                <td>
+                    <input type="button" value="Password" class="password-button"/>
+                </td>
+                <td>
+                    <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
+                </td>
+                <td>
+                    <input type="button" value="Reset Trial" class="reset-trial" />
+                </td>
+                <td>
+                    <input type="button" value="Delete" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
+                </td>
+            </tr>
+            {% endfor %}
         </table>
         </div>
 	<div class="commands-placeholder">
 	</div>
         <div class="commands">
             <div>
-                <input type="button" value="Download" onclick="download()"/>
-            </div>
-            <div>
-                <div class="upload-btn-wrapper">
-		    <button class="upload" onclick="upload()">Upload</button>
-		    <input type="file" id="fileupload" onchange="upload()"/>
-                 </div>
-            </div>
-            <div>
-                <input type="button" value="Save" onclick="save(this)"/>
+                <input type="button" value="Add New User" onclick="addNewUser()"/>
             </div>
 	    <div>
-		<input type="button" value="Logout" onclick="logout()"/>
-		{% if is_admin %}
-		<input type="button" value="Admin" onclick="admin()"/>
-		{% endif %}
-		</div>
-        </div>
-		<dialog id="upload-success">
+		<dialog id="add-new-user-dlg">
 			<p>Configuration is uploaded successfully.</p>
 			<form method="dialog">
 				<button>OK</button>
 			</form>
 		</dialog>
-		<dialog id="upload-fail">
+		<dialog id="delete-user-dlg">
 			<p>Uploading configuration is failed.</p>
 			<form method="dialog">
 				<button>OK</button>
 			</form>
 		</dialog>
-		<dialog id="save-success">
+		<dialog id="reset-period-dlg">
 			<p>Configuration is saved successfully.</p>
 			<form method="dialog">
 				<button>OK</button>
 			</form>
 		</dialog>
-		<dialog id="save-fail">
-			<p>Configuration saving is failed.</p>
-			<form method="dialog">
-				<button>OK</button>
-			</form>
-		</dialog>
-
     </body>
 </html>
