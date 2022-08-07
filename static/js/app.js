@@ -78,6 +78,13 @@ async function admin() {
 	});
 }
 
+async function config() {
+	await fetch("/config")
+	.then((res) => {
+		location.href = "/config";
+	});
+}
+
 async function download() {
     await fetch("/download", {method:"POST"})
 	.then((res)=> {
