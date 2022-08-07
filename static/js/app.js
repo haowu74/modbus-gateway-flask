@@ -96,7 +96,7 @@ async function upload() {
     let formData = new FormData();
     formData.append("file", fileupload.files[0]);
     await fetch("/upload", {
-	method:"POST",
+	    method:"POST",
         body: formData
     }).then((res) => {
     	return res.json();
@@ -108,4 +108,20 @@ async function upload() {
 		}
     });
 }
+
+document.getElementById("add-new-user-dlg").addEventListener('close', async () => {
+    let username = document.getElementById("new-user-name").value;
+    let password = document.getElementById("new-user-password").value;
+    await fetch("/addnewuser", {
+        method: "POST",
+        body: {
+            username: username,
+            password: password
+        }
+    }).then((res) => {
+        return res.json();
+    }).then((data) => {
+        console.log(data.success);
+    });
+});
 
