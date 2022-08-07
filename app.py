@@ -176,14 +176,15 @@ def change_password():
 def delete_user():
     user = json.loads(request.data)
     username = user['username']
-    with open(users_file, 'r+') as f:
+    with open(users_file, 'r') as f:
         users = json.load(f)
         user_found = False
         for key in users:
             if key == username:
                 #user found
                 user_found = True
-        if user_found:
+    if user_found:
+        with open(users_file, 'w') as f:
             users.pop(username)
             f.seek(0)
             json.dump(users, f)
