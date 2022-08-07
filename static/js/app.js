@@ -121,11 +121,35 @@ async function addNewUser() {
     }).then((res) => {
         return res.json();
     }).then((data) => {
-        console.log(data.success);
+        if (data.success) {
+            location.reload();
+        }
     });
 };
 
-async function changePassword(element) {
+async function changePassword() {
+    let username = document.getElementById("user-to-change-password").innerHTML;
+    let password = document.getElementById("new-password").value;
+    await fetch("/changepassword", {
+        method: "POST",
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    }).then((res) => {
+        return res.json();
+    }).then((data) => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
 
+async function deleteUser() {
+
+}
+
+async function resetPeriod() {
+    
 }
 

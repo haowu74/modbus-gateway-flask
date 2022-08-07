@@ -32,10 +32,14 @@
                             })()"/>
                     </td>
                     <td>
+                        {% if username != 'admin' %}
                         <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
+                        {% endif %}
                     </td>
                     <td>
+                        {% if username != 'admin' %}
                         <input type="button" value="Reset Trial" class="reset-trial" />
+                        {% endif %}
                     </td>
                     <td>
                         {% if username != 'admin' %}
@@ -69,24 +73,24 @@
 			</form>
 		</dialog>
         <dialog id="change-password-dlg">
-			<p>Change password for the user <emph id="user-to-change-password"></emph>.</p>
+			<p>Change password for the user <strong id="user-to-change-password"></strong>.</p>
 			<form method="dialog">
                 <input type="password" id="new-password" placeholder="Password" />
                 <input type="password" id="new-password-repeat" placeholder="Repeat Password" />
-				<button onclick="changePassword(this)">OK</button>
+				<button onclick="changePassword()">OK</button>
 			</form>
 		</dialog>
 		<dialog id="delete-user-dlg">
-			<p>Delete the user <emph id="user-to-delete"></emph></p>
+			<p>Delete the user <strong id="user-to-delete"></strong></p>
 			<form method="dialog">
                 <button value="cancel">Cancel</button>
-				<button onclick="deleteUser(this)">OK</button>
+				<button onclick="deleteUser()">OK</button>
 			</form>
 		</dialog>
 		<dialog id="reset-period-dlg">
 			<p>Configuration is saved successfully.</p>
 			<form method="dialog">
-				<button onclick="resetPeriod(this)">OK</button>
+				<button onclick="resetPeriod()">OK</button>
 			</form>
 		</dialog>
     </body>
