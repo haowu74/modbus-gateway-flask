@@ -27,7 +27,7 @@
                     </td>
                     <td>
                         <input type="button" value="Password" class="password-button" onclick="(()=>{
-                                document.getElementById('user-to-change-password').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para').innerHTML;
+                                document.getElementById('user-to-change-password').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
                                 document.getElementById('change-password-dlg').showModal(); 
                             })()"/>
                     </td>
