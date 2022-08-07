@@ -26,7 +26,7 @@
                         <p>{{ username }}</p>
                     </td>
                     <td>
-                        <input type="button" value="Password" class="password-button" onclick="()=>document.getElementById('change-password-dlg').showModal()"/>
+                        <input type="button" value="Password" class="password-button" onclick="(()=>document.getElementById('change-password-dlg').showModal())()"/>
                     </td>
                     <td>
                         <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
@@ -45,7 +45,7 @@
         </div>
         <div class="commands">
             <div>
-                <input type="button" value="New User" onclick="()=>document.getElementById('add-new-user-dlg').showModal()"/>
+                <input type="button" value="New User" onclick="(()=>document.getElementById('add-new-user-dlg').showModal())()"/>
             </div>
 	    <div>
 		<dialog id="add-new-user-dlg">
@@ -60,8 +60,8 @@
         <dialog id="change-password-dlg">
 			<p>Change password for the user <emph id="user-to-change-password"></emph>.</p>
 			<form method="dialog">
-                <input type="password" id="new-user-password" placeholder="Password" />
-                <input type="password" id="new-user-password-repeat" placeholder="Password" />
+                <input type="password" id="new-password" placeholder="Password" />
+                <input type="password" id="new-password-repeat" placeholder="Password" />
 				<button>OK</button>
 			</form>
 		</dialog>
