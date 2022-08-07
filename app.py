@@ -137,8 +137,8 @@ def upload():
 
 @app.route('/addnewuser', methods=['POST'])
 def add_new_user():
-    username = request.data['username']
-    password = request.data['password']
+    username = request.json['username']
+    password = request.json['password']
     with open(users_file, 'rw') as f:
         users = json.load(f)
         for key in users:
