@@ -1,3 +1,5 @@
+from crypt import methods
+from sre_constants import SUCCESS
 from flask import Flask, render_template, jsonify, request, json, redirect, url_for, make_response, send_file, flash
 import time
 import threading
@@ -133,7 +135,38 @@ def upload():
         return jsonify(success=True)
     return jsonify(success=False)
 
+@app.route('/addnewuser', methods=['POST'])
+def add_new_user():
+    username = request.form['username']
+    password = request.form['password']
+    with open(users_file, 'rw') as f:
+        users = json.load(f)
+        for key in users:
+            if key == username:
+                #user exist
+                return jsonify(success=False)
+            
+        h = blake2b()
+        h.update(str.encode(password))
+        users[username] = h.hexdigest()
+        json.dump(users, f)
+    return jsonify(success=True)
 
+@app.route('/changepassword', methods=['POST'])
+def change_password():
+    username = request.form['username']
+    password = request.form['password']
+    with open(users_file, 'rw') as f:
+        users = json.load(f)
+        for key in users:
+            if key == username:
+                #user found
+                h = blake2b()
+                h.update(str.encode(password))
+                users[username] = h.hexdigest()
+                json.dump(users, f)
+                return jsonify(success=True)
+    return jsonify(success=False)
 
 def modbus_worker():
     gateway.loop()

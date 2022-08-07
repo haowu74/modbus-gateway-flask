@@ -5,58 +5,70 @@
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </head>
     <body>
-	<div class="logo-container">
-            <img class="logo" src="{{url_for('static', filename='images/logo1.png')}}" />
-	</div>
-	<div class="logo-placeholder">
-	</div>
-
-	<div class="table-container">
-        <table class="admin-table">
-            <tr>
-                <th>Username</th>
-                <th>Change Password</th>
-                <th>Trial Period (days)</th>
-                <th>Reset Trial Period</th>
-                <th>Delete</th>
-            </tr>
-            {% for username in usernames %}
-            <tr>
-                <td>
-					<p>{{ username }}</p>
-                </td>
-                <td>
-                    <input type="button" value="Password" class="password-button"/>
-                </td>
-                <td>
-                    <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
-                </td>
-                <td>
-                    <input type="button" value="Reset Trial" class="reset-trial" />
-                </td>
-                <td>
-                    <input type="button" value="Delete" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="logo-container">
+                <img class="logo" src="{{url_for('static', filename='images/logo1.png')}}" />
         </div>
-	<div class="commands-placeholder">
-	</div>
+        <div class="logo-placeholder">
+        </div>
+
+        <div class="table-container">
+            <table class="admin-table">
+                <tr>
+                    <th>Username</th>
+                    <th>Change Password</th>
+                    <th>Trial Period (days)</th>
+                    <th>Reset Trial Period</th>
+                    <th>Delete</th>
+                </tr>
+                {% for username in usernames %}
+                <tr>
+                    <td>
+                        <p>{{ username }}</p>
+                    </td>
+                    <td>
+                        <input type="button" value="Password" class="password-button" onclick="()=>document.getElementById('change-password-dlg').showModal()"/>
+                    </td>
+                    <td>
+                        <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
+                    </td>
+                    <td>
+                        <input type="button" value="Reset Trial" class="reset-trial" />
+                    </td>
+                    <td>
+                        <input type="button" value="Delete" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="commands-placeholder">
+        </div>
         <div class="commands">
             <div>
-                <input type="button" value="Add New User" onclick="addNewUser()"/>
+                <input type="button" value="New User" onclick="()=>document.getElementById('add-new-user-dlg').showModal()"/>
             </div>
 	    <div>
 		<dialog id="add-new-user-dlg">
-			<p>Configuration is uploaded successfully.</p>
+			<p>Add a new user.</p>
 			<form method="dialog">
+                <input type="text" id="new-user-name" placeholder="Username" />
+                <input type="password" id="new-user-password" placeholder="Password" />
+                <input type="password" id="new-user-password-repeat" placeholder="Password" />
+				<button>OK</button>
+			</form>
+		</dialog>
+        <dialog id="change-password-dlg">
+			<p>Change password for the user <emph id="user-to-change-password"></emph>.</p>
+			<form method="dialog">
+                <input type="password" id="new-user-password" placeholder="Password" />
+                <input type="password" id="new-user-password-repeat" placeholder="Password" />
 				<button>OK</button>
 			</form>
 		</dialog>
 		<dialog id="delete-user-dlg">
-			<p>Uploading configuration is failed.</p>
+			<p>Delete the user <emph id="user-to-delete"></emph></p>
 			<form method="dialog">
+                <button value="cancel">Cancel</button>
 				<button>OK</button>
 			</form>
 		</dialog>
