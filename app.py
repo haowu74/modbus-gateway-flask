@@ -172,6 +172,21 @@ def change_password():
                 return jsonify(success=True)
     return jsonify(success=False)
 
+@app.route('/deleteuser', methods=['POST'])
+def delete_user():
+    user = json.loads(request.data)
+    username = user['username']
+    with open(users_file, 'r+') as f:
+        users = json.load(f)
+        for key in users:
+            if key == username:
+                #user found
+                users.pop(username)
+                f.seek(0)
+                json.dump(users, f)
+                return jsonify(success=True)
+    return jsonify(success=False)
+
 def modbus_worker():
     gateway.loop()
 

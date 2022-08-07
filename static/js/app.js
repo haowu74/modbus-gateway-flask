@@ -139,17 +139,27 @@ async function changePassword() {
     }).then((res) => {
         return res.json();
     }).then((data) => {
+        // change password successful
+    });
+}
+
+async function deleteUser() {
+    let username = document.getElementById("user-to-delete").innerHTML;
+    await fetch("/deleteuser", {
+        method: "POST",
+        body: JSON.stringify({
+            username: username
+        })
+    }).then((res) => {
+        return res.json();
+    }).then((data) => {
         if (data.success) {
             location.reload();
         }
     });
 }
 
-async function deleteUser() {
-
-}
-
 async function resetPeriod() {
-    
+
 }
 

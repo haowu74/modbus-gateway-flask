@@ -43,7 +43,10 @@
                     </td>
                     <td>
                         {% if username != 'admin' %}
-                        <input type="button" value="Delete" class="delete-user" onclick="(()=>document.getElementById('delete-user-dlg').showModal())()"/>
+                        <input type="button" value="Delete" class="delete-user" onclick="(()=>{
+                                document.getElementById('user-to-delete').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
+                                document.getElementById('delete-user-dlg').showModal()
+                            })()"/>
                         {% endif %}
                     </td>
                 </tr>
