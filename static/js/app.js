@@ -114,10 +114,10 @@ async function addNewUser() {
     let password = document.getElementById("new-user-password").value;
     await fetch("/addnewuser", {
         method: "POST",
-        body: {
+        body: JSON.stringify({
             username: username,
             password: password
-        }
+        })
     }).then((res) => {
         return res.json();
     }).then((data) => {
