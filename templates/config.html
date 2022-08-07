@@ -67,27 +67,29 @@
                 {% endif %}
             </table>
         </div>
-	<div class="commands-placeholder">
-	</div>
+        <div class="commands-placeholder">
+        </div>
         <div class="commands">
             <div>
                 <input type="button" value="Download" onclick="download()"/>
             </div>
             <div>
                 <div class="upload-btn-wrapper">
-		    <button class="upload" onclick="upload()">Upload</button>
-		    <input type="file" id="fileupload" onchange="upload()"/>
-                 </div>
+                    <button class="upload" onclick="upload()">Upload</button>
+                    <input type="file" id="fileupload" onchange="upload()"/>
+                </div>
             </div>
             <div>
                 <input type="button" value="Save" onclick="save(this)"/>
             </div>
-	    <div>
-		<input type="button" value="Logout" onclick="logout()"/>
-		{% if is_admin %}
-		<input type="button" value="Admin" onclick="admin()"/>
-		{% endif %}
-		</div>
+            <div>
+                <input type="button" value="Logout" onclick="logout()"/>
+            </div>
+            {% if is_admin %}
+            <div>
+                <input type="button" value="Admin" onclick="admin()"/>
+            </div>
+            {% endif %}
         </div>
 		<dialog id="upload-success">
 			<p>Configuration is uploaded successfully.</p>
@@ -113,6 +115,5 @@
 				<button>OK</button>
 			</form>
 		</dialog>
-
     </body>
 </html>
