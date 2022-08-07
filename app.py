@@ -100,14 +100,12 @@ def download():
 def upload():
     print('upload')
     if 'file' not in request.files:
-        flash('No file part')
         return jsonify(success=False)
     file = request.files['file']
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     print(file.filename)
     if file.filename == '':
-        flash('No selected file')
         return jsonify(success=False)
     if file and file.filename == 'config.json':
         file.save(file.filename)

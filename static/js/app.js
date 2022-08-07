@@ -79,5 +79,13 @@ async function upload() {
     await fetch("/upload", {
 	method:"POST",
         body: formData
+    }).then((res) => {
+    	return res.json();
+    }).then((data) => {
+    	if (data.success) {
+			document.getElementById("upload-success").showModal();
+		} else {
+			document.getElementById("upload-fail").showModal();
+		}
     });
 }
