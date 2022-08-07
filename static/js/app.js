@@ -1,7 +1,4 @@
 function save(button) {
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/save", true);
-    xhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     var units = [];
     for (var i = 1; i < 201; i++) {
         var row = button.parentElement.parentElement.parentElement.querySelector(`#select_${i}`).parentElement.parentElement;
@@ -19,7 +16,22 @@ function save(button) {
         }
         units.push(unit);
     }
-    xhttp.send(JSON.stringify(units));
+	fetch("/save", {
+		method:"POST",
+		headers: {
+			"Content-type": "application/json",
+		},
+		body: JSON.stringify(units),
+	})
+	.then((res)=> {
+	    return res.json();
+	}).then(data => {
+		if (data.success) {
+			document.getElementById("save-success").showModal();
+		} else {
+			document.getElementById("save-fail").showModal();
+		}
+	});
 }
 
 function addressChanged(text) {

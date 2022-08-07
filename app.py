@@ -70,6 +70,7 @@ def save():
     units = json.loads(request.data)
     with open(config_file, 'w') as f:
         json.dump(units, f)
+        gateway.units = units
     return jsonify(success=True)
 
 @app.route('/login', methods=['POST'])
