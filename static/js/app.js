@@ -109,7 +109,7 @@ async function upload() {
     });
 }
 
-document.getElementById("add-new-user-dlg").addEventListener('close', async () => {
+async function addNewUser() {
     let username = document.getElementById("new-user-name").value;
     let password = document.getElementById("new-user-password").value;
     await fetch("/addnewuser", {
@@ -123,5 +123,5 @@ document.getElementById("add-new-user-dlg").addEventListener('close', async () =
     }).then((data) => {
         console.log(data.success);
     });
-});
+};
 
