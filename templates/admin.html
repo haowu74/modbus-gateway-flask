@@ -23,10 +23,11 @@
                 {% for username in usernames %}
                 <tr>
                     <td>
-                        <p>{{ username }}</p>
+                        <p class="username-para">{{ username }}</p>
                     </td>
                     <td>
                         <input type="button" value="Password" class="password-button" onclick="(()=>{
+                                document.getElementById('user-to-change-password').innerHTML = this.parent.parent.getElementsByClassName('username-para').innerHTML;
                                 document.getElementById('change-password-dlg').showModal(); 
                             })()"/>
                     </td>
@@ -50,6 +51,12 @@
         <div class="commands">
             <div>
                 <input type="button" value="New User" onclick="(()=>document.getElementById('add-new-user-dlg').showModal())()"/>
+            </div>
+            <div>
+                <input type="button" value="Configure" onclick="config()"/>
+            </div>
+            <div>
+                <input type="button" value="Logout" onclick="logout()"/>
             </div>
 	    <div>
 		<dialog id="add-new-user-dlg">
