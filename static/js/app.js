@@ -125,3 +125,7 @@ async function addNewUser() {
     });
 };
 
+async function changePassword(element) {
+
+}
+

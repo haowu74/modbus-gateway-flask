@@ -26,7 +26,9 @@
                         <p>{{ username }}</p>
                     </td>
                     <td>
-                        <input type="button" value="Password" class="password-button" onclick="(()=>document.getElementById('change-password-dlg').showModal())()"/>
+                        <input type="button" value="Password" class="password-button" onclick="(()=>{
+                                document.getElementById('change-password-dlg').showModal(); 
+                            })()"/>
                     </td>
                     <td>
                         <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
@@ -35,7 +37,9 @@
                         <input type="button" value="Reset Trial" class="reset-trial" />
                     </td>
                     <td>
-                        <input type="button" value="Delete" class="delay-time" onclick="this.focus();this.select()" onchange="delayChanged(this.oldValue, this.value)"/>
+                        {% if username != 'admin' %}
+                        <input type="button" value="Delete" class="delete-user" onclick="(()=>document.getElementById('delete-user-dlg').showModal())()"/>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -62,20 +66,20 @@
 			<form method="dialog">
                 <input type="password" id="new-password" placeholder="Password" />
                 <input type="password" id="new-password-repeat" placeholder="Repeat Password" />
-				<button>OK</button>
+				<button onclick="changePassword(this)">OK</button>
 			</form>
 		</dialog>
 		<dialog id="delete-user-dlg">
 			<p>Delete the user <emph id="user-to-delete"></emph></p>
 			<form method="dialog">
                 <button value="cancel">Cancel</button>
-				<button>OK</button>
+				<button onclick="deleteUser(this)">OK</button>
 			</form>
 		</dialog>
 		<dialog id="reset-period-dlg">
 			<p>Configuration is saved successfully.</p>
 			<form method="dialog">
-				<button>OK</button>
+				<button onclick="resetPeriod(this)">OK</button>
 			</form>
 		</dialog>
     </body>

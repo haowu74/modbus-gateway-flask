@@ -156,9 +156,10 @@ def add_new_user():
 
 @app.route('/changepassword', methods=['POST'])
 def change_password():
-    username = request.form['username']
-    password = request.form['password']
-    with open(users_file, 'rw') as f:
+    user = json.loads(request.data)
+    username = user['username']
+    password = user['password']
+    with open(users_file, 'r+') as f:
         users = json.load(f)
         for key in users:
             if key == username:
@@ -166,6 +167,7 @@ def change_password():
                 h = blake2b()
                 h.update(str.encode(password))
                 users[username] = h.hexdigest()
+                f.seek(0)
                 json.dump(users, f)
                 return jsonify(success=True)
     return jsonify(success=False)
