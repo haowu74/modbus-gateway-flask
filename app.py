@@ -140,7 +140,7 @@ def add_new_user():
     user = json.loads(request.data)
     username = user['username']
     password = user['password']
-    with open(users_file, 'w') as f:
+    with open(users_file, 'r+') as f:
         users = json.load(f)
         for key in users:
             if key == username:
