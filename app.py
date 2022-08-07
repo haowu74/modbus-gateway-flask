@@ -74,6 +74,11 @@ def configure():
 def admin():
     current_user = jwtVerify(request.cookies)
     if current_user == "admin":
+        users = []
+        if exists(users_file):
+            with open(users_file, 'r') as f:
+                users = json.load(f)
+
         return render_template('admin.html', template_name='Jinja2')
     else:
         return redirect(url_for("login"))
@@ -94,9 +99,9 @@ def login_post():
     with open(users_file, 'r') as f:
         users = json.load(f)
         for key in users:
-            h = blake2b()
-            h.update(str.encode(username))
-            if key == h.hexdigest():
+            # h = blake2b()
+            # h.update(str.encode(username))
+            if key == username:
                 h = blake2b()
                 h.update(str.encode(password))
                 if users[key] == h.hexdigest():
