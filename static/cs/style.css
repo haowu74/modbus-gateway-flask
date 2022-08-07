@@ -22,9 +22,15 @@ body {
     align-items: center;
 }
 
-table{
+.config-table{
     border: 1px solid;
     width: 60%;
+    color: white;
+}
+
+.admin-table{
+    border: 1px solid;
+    width: 70%;
     color: white;
 }
 
