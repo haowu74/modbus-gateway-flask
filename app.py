@@ -186,7 +186,6 @@ def delete_user():
     if user_found:
         with open(users_file, 'w') as f:
             users.pop(username)
-            f.seek(0)
             json.dump(users, f)
             return jsonify(success=True)
     return jsonify(success=False)
