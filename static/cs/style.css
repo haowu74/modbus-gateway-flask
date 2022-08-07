@@ -110,7 +110,4 @@ input[type=text]:read-only {
 	font-size: 15px;
 }
 
-#add-new-user-dlg {
-    display: flex;
-    flex-direction: row;
-}
+
