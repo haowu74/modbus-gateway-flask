@@ -75,7 +75,7 @@ td, th {
     margin: 5px;
 }
 
-input[type=text] {
+.table-container input[type=text] {
     width: 100%;
 }
 
