@@ -178,13 +178,16 @@ def delete_user():
     username = user['username']
     with open(users_file, 'r+') as f:
         users = json.load(f)
+        user_found = False
         for key in users:
             if key == username:
                 #user found
-                users.pop(username)
-                f.seek(0)
-                json.dump(users, f)
-                return jsonify(success=True)
+                user_found = True
+        if user_found:
+            users.pop(username)
+            f.seek(0)
+            json.dump(users, f)
+            return jsonify(success=True)
     return jsonify(success=False)
 
 def modbus_worker():
