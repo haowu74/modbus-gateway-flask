@@ -35,7 +35,7 @@
                                 document.getElementById('user-to-delete').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
                                 document.getElementById('delete-user-dlg').showModal()
                             })()"/>
-                        {% else if islocked %}
+                        {% elif islocked %}
                         <input type="button" value="unlock" id="unlock-trial" onclick="unlock()" />
                         {% endif %}
                     </td>
