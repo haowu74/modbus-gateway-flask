@@ -35,6 +35,8 @@
                                 document.getElementById('user-to-delete').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
                                 document.getElementById('delete-user-dlg').showModal()
                             })()"/>
+                        {% else if islocked %}
+                        <input type="button" value="unlock" id="unlock-trial" onclick="unlock()" />
                         {% endif %}
                     </td>
                 </tr>
@@ -60,6 +62,7 @@
                 <input type="text" id="new-user-name" placeholder="Username" />
                 <input type="password" id="new-user-password" placeholder="Password" />
                 <input type="password" id="new-user-password-repeat" placeholder="Repeat Password" />
+                <button>Cancel</button>
 				<button onclick="addNewUser()">OK</button>
 			</form>
 		</dialog>
@@ -68,6 +71,7 @@
 			<form method="dialog">
                 <input type="password" id="new-password" placeholder="Password" />
                 <input type="password" id="new-password-repeat" placeholder="Repeat Password" />
+                <button>Cancel</button>
 				<button onclick="changePassword()">OK</button>
 			</form>
 		</dialog>
@@ -84,5 +88,13 @@
 				<button onclick="resetPeriod()">OK</button>
 			</form>
 		</dialog>
+        <dialog id="license-dlg">
+            <p>Please input the license code:</p>
+            <form method="dialog">
+                <input type="text" id="license-code" placeholder="License code" />
+                <button>Cancel</button>
+				<button onclick="inputLicenseCode()">OK</button>
+			</form>
+        </dialog>
     </body>
 </html>

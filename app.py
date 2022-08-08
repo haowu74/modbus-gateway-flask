@@ -76,11 +76,12 @@ def admin():
     if current_user == "admin":
         users = []
         usernames = []
+        islocked = True
         if exists(users_file):
             with open(users_file, 'r') as f:
                 users = json.load(f)
                 usernames = [x for x in users]
-        return render_template('admin.html', usernames=usernames, template_name='Jinja2')
+        return render_template('admin.html', usernames=usernames, islocked=islocked, template_name='Jinja2')
     else:
         return redirect(url_for("login"))
 

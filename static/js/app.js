@@ -167,7 +167,7 @@ async function deleteUser() {
 }
 
 async function resetPeriod() {
-    
+
 }
 
 function toggkeSelectAll() {
@@ -181,4 +181,12 @@ function toggkeSelectAll() {
             checkboxes[i].checked = false;
         }
     }
+}
+
+function unlock() {
+    document.getElementById('license-dlg').showModal();
+}
+
+async function inputLicenseCode() {
+
 }
