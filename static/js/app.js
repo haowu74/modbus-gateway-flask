@@ -170,3 +170,15 @@ async function resetPeriod() {
 
 }
 
+function toggkeSelectAll() {
+    let checkboxes = document.getElementsByClassName('config-table')[0].querySelectorAll('.config-selector');
+    if (document.getElementById('select_all').checked) {
+        for (var checkbox in checkboxes) {
+            checkbox.checked = true;
+        }
+    } else {
+        for (var checkbox in checkboxes) {
+            checkbox.checked = false;
+        }
+    }
+}
