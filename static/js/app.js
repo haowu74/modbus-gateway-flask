@@ -173,12 +173,12 @@ async function resetPeriod() {
 function toggkeSelectAll() {
     let checkboxes = document.getElementsByClassName('config-table')[0].querySelectorAll('.config-selector');
     if (document.getElementById('select_all').checked) {
-        for (var checkbox in checkboxes) {
-            checkbox.checked = true;
+        for (var i in checkboxes) {
+            checkboxes[i].checked = true;
         }
     } else {
-        for (var checkbox in checkboxes) {
-            checkbox.checked = false;
+        for (var i in checkboxes) {
+            checkboxes[i].checked = false;
         }
     }
 }
