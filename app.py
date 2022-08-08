@@ -76,12 +76,13 @@ def admin():
     if current_user == "admin":
         users = []
         usernames = []
+        license_hint = getserial()
         islocked = True
         if exists(users_file):
             with open(users_file, 'r') as f:
                 users = json.load(f)
                 usernames = [x for x in users]
-        return render_template('admin.html', usernames=usernames, islocked=islocked, template_name='Jinja2')
+        return render_template('admin.html', usernames=usernames, islocked=islocked, license_hint=license_hint, template_name='Jinja2')
     else:
         return redirect(url_for("login"))
 
@@ -189,6 +190,19 @@ def delete_user():
 
 def modbus_worker():
     gateway.loop()
+
+def getserial():
+    # Extract serial from cpuinfo file
+    cpuserial = "0000000000000000"
+    try:
+        with open('/proc/cpuinfo','r') as f:
+            for line in f:
+                if line[0:6]=='Serial':
+                    cpuserial = line[10:26]
+    except:
+        cpuserial = "ERROR000000000"
+ 
+    return cpuserial
 
 if __name__ == '__main__':
     thread = threading.Thread(target=modbus_worker)
