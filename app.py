@@ -65,9 +65,7 @@ def configure():
             with open(config_file, 'r') as f:
                 units = json.load(f)
                 gateway.units = units
-                # print(units)
         is_admin = current_user == "admin"
-        print(current_user)
         return render_template('config.html', units=units, is_admin=is_admin, template_name="Jinja2")
     else:
         return redirect(url_for("login"))
@@ -102,8 +100,6 @@ def login_post():
     with open(users_file, 'r') as f:
         users = json.load(f)
         for key in users:
-            # h = blake2b()
-            # h.update(str.encode(username))
             if key == username:
                 h = blake2b()
                 h.update(str.encode(password))

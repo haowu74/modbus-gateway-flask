@@ -95,6 +95,3 @@ class Gateway:
             return bytes[9]
         else:
             return -1        
-
-
-

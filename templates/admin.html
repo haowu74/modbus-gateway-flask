@@ -16,8 +16,6 @@
                 <tr>
                     <th>Username</th>
                     <th>Change Password</th>
-                    <th>Trial Period (days)</th>
-                    <th>Reset Trial Period</th>
                     <th>Delete</th>
                 </tr>
                 {% for username in usernames %}
@@ -30,16 +28,6 @@
                                 document.getElementById('user-to-change-password').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
                                 document.getElementById('change-password-dlg').showModal(); 
                             })()"/>
-                    </td>
-                    <td>
-                        {% if username != 'admin' %}
-                        <input type="text" value="7" class="trial-period" onclick="this.focus();this.select();this.oldValue=this.value" onchange="addressChanged(this)"/>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if username != 'admin' %}
-                        <input type="button" value="Reset Trial" class="reset-trial" />
-                        {% endif %}
                     </td>
                     <td>
                         {% if username != 'admin' %}

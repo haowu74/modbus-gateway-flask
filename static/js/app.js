@@ -167,7 +167,7 @@ async function deleteUser() {
 }
 
 async function resetPeriod() {
-
+    
 }
 
 function toggkeSelectAll() {
