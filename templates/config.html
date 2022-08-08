@@ -14,7 +14,7 @@
 	<div class="table-container">
             <table class="config-table">
                 <tr>
-                    <th><input type="checkbox" name="select_all" id="select_all"></th>
+                    <th><input type="checkbox" name="select_all" id="select_all" onchange="toggkeSelectAll()"></th>
                     <th>Unit number (DEC / HEX)</th>
                     <th>Modbus Address</th>
                     <th>Holding Register</th>
@@ -24,7 +24,7 @@
                     {% for n in range(1, 201) %}
                     <tr>
                         <td>
-                            <input type="checkbox" name="select_{{n}}" id="select_{{n}}" class="config-selector" onchange="toggkeSelectAll()">
+                            <input type="checkbox" name="select_{{n}}" id="select_{{n}}" class="config-selector" onchange="unitSelected(this)">
                         </td>
                         <td>
                             <input type="text" value="{{n}} / {{'%#x'%n}}" class="unit-number" readonly="readonly"/>
