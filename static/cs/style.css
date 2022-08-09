@@ -24,7 +24,6 @@ body {
 }
 
 .config-table{
-    border: 1px solid;
     width: 60%;
     color: white;
 }
@@ -107,6 +106,7 @@ input[type=text]:read-only {
     background-color:#36454F; 
     position:fixed;
     top: 0;
+    height: 120px;
 }
 
 .commands input[type=button], button {
