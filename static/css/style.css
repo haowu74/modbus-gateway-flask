@@ -4,7 +4,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #36454F
+    background-color: #36454F;
+    font-family: sans-serif;
 }
 
 .logo-placeholder {
@@ -115,4 +116,8 @@ input[type=text]:read-only {
 	font-size: 15px;
 }
 
-
+dialog {
+    background-color: #25343e;
+    color: white;
+    font-family: sans-serif;
+}
