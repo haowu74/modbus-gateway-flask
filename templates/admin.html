@@ -77,32 +77,46 @@
         <dialog id="change-password-dlg">
 			<p>Change password for the user <strong id="user-to-change-password"></strong>.</p>
 			<form method="dialog">
-                <input type="password" id="new-password" placeholder="Password" />
-                <input type="password" id="new-password-repeat" placeholder="Repeat Password" />
-                <button>Cancel</button>
-				<button onclick="changePassword()">OK</button>
+                <div>
+                    <input type="password" id="new-password" placeholder="Password" />
+                </div>
+                <div>
+                    <input type="password" id="new-password-repeat" placeholder="Repeat Password" />
+                </div>
+                <div>
+                    <button>Cancel</button>
+                    <button onclick="changePassword()">OK</button>
+                </div>
 			</form>
 		</dialog>
 		<dialog id="delete-user-dlg">
 			<p>Delete the user <strong id="user-to-delete"></strong></p>
 			<form method="dialog">
-                <button value="cancel">Cancel</button>
-				<button onclick="deleteUser()">OK</button>
+                <div>
+                    <button value="cancel">Cancel</button>
+                    <button onclick="deleteUser()">OK</button>
+                </div>
 			</form>
 		</dialog>
 		<dialog id="reset-period-dlg">
 			<p>Configuration is saved successfully.</p>
 			<form method="dialog">
-				<button onclick="resetPeriod()">OK</button>
+                <div>
+                    <button onclick="resetPeriod()">OK</button>
+                </div>
 			</form>
 		</dialog>
         <dialog id="license-dlg">
             <p>Please input the license code:</p>
             <form method="dialog">
                 <p>{{ license_hint }}</p>
-                <input type="text" id="license-code" placeholder="License code" />
-                <button>Cancel</button>
-				<button onclick="inputLicenseCode()">OK</button>
+                <div>
+                    <input type="text" id="license-code" placeholder="License code" />
+                </div>
+                <div>
+                    <button>Cancel</button>
+                    <button onclick="inputLicenseCode()">OK</button>
+                </div>
 			</form>
         </dialog>
     </body>

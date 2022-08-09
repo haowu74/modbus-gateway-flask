@@ -86,6 +86,7 @@ th {
 
 input[type=text]:read-only {
     background-color: #eee;
+    margin: 2px;
 }
 
 .login {
