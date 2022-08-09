@@ -86,11 +86,11 @@ class Gateway:
             if len(bytes) >= 9:
                 i = 0
                 while i <= len(bytes)-9:
-                    id = self.getReleaseDoorUnit(bytes[i:i+9])
+                    id = self.getReleaseDoorUnit(bytes[i:i+10])
                     if id > 0:
                         print('Receiving:' + ' '.join('{:02X}'.format(a) for a in bytes))
                         self.trigger(id)
-                        i += 9
+                        i += 10
                     else:
                         i += 1
 
