@@ -104,7 +104,6 @@ async function download() {
 	});
 }
 
-
 async function upload() {
     let formData = new FormData();
     formData.append("file", fileupload.files[0]);

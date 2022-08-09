@@ -27,6 +27,7 @@ class Gateway:
         GPIO.output(7, 1)
         self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=0)
         self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=9600,parity=serial.PARITY_EVEN)
+        self.lock = threading.Lock()
 
     def add_unit(self, unit):
         self.units.append(unit)
@@ -55,7 +56,8 @@ class Gateway:
         msg[6] = crc & 0xff
         msg[7] = (crc & 0xff00) >> 8
         print('Modbus: '+' '.join('{:02X}'.format(a) for a in msg))
-        self.modbus.write(bytes(msg[0:8]))
+        with self.lock:
+            self.modbus.write(bytes(msg[0:8]))
 
     def writeRegister(self, id, address, register, delay):
         self.delay_timer[id].cancel()
@@ -63,7 +65,7 @@ class Gateway:
         self.delay_timer[id] = threading.Timer(delay, lambda: self.operateRelay(address, register, 2))
         self.delay_timer[id].start()
 
-    def trigger(self, id, lock=True):
+    def trigger(self, id):
         #print(self.units)
         if len(self.units) >0:
             units = list(filter(lambda x: int(x['id'].split('/')[0]) == id, self.units))
@@ -78,12 +80,11 @@ class Gateway:
             time.sleep(1)
             bytes = self.usb.read(100)
             if len(bytes) > 0:
-                print(' '.join('{:02X}'.format(a) for a in bytes))
+                print('Receiving:' + ' '.join('{:02X}'.format(a) for a in bytes))
             if len(bytes) >= 9:
                 id = self.getReleaseDoorUnit(bytes)
                 if id > 0:
                     self.trigger(id)
-
 
     def isDoorReleaseCommand(self, bytes):
         # 55 AA 00 0C 00 02 01 00 01
