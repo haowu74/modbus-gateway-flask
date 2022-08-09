@@ -40,9 +40,9 @@ function addressChanged(text) {
     }
 }
 
-function registerChanged(oldValue, value) {
-    if (isNaN(parseFloat(value)) ) {
-        value = oldValue;
+function registerChanged(text) {
+    if (isNaN(parseFloat(text.value)) ) {
+        text.value = text.oldValue;
     }
 }
 
