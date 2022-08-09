@@ -13,7 +13,6 @@ import os
 app = Flask(__name__)
 config_file = "config.json"
 users_file = "users.json"
-gateway = Gateway(config_file)
 
 HOST_NAME = "localhost"
 HOST_PORT = 80
@@ -59,6 +58,7 @@ def login():
 @app.route("/")
 @app.route("/config")
 def configure():
+    global gateway
     current_user = jwtVerify(request.cookies) 
     if current_user != "":
         units = []
@@ -89,6 +89,7 @@ def admin():
 
 @app.route("/save", methods=['POST'])
 def save():
+    global gateway
     units = json.loads(request.data)
     with open(config_file, 'w') as f:
         json.dump(units, f)
@@ -190,6 +191,7 @@ def delete_user():
     return jsonify(success=False)
 
 def modbus_worker(islocked):
+    global gateway
     gateway.loop(islocked)
 
 def getserial():
@@ -213,10 +215,12 @@ def check_license():
     return False
 
 if __name__ == '__main__':
+    global gateway
     print("Server started.")
+    gateway = Gateway(config_file)
     islocked = not check_license()
     thread = threading.Thread(target=modbus_worker, args=(islocked,))
     thread.daemon = True
-    # thread.start()
+    thread.start()
     app.secret_key = 'isecurity_modbus'
     app.run(debug=True, host='0.0.0.0', port=3000)
