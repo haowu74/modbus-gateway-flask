@@ -56,6 +56,7 @@ def login():
     else:
         return render_template('login.html', template_name="Jinja2")
 
+@app.route("/")
 @app.route("/config")
 def configure():
     current_user = jwtVerify(request.cookies) 

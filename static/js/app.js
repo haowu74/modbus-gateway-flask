@@ -40,9 +40,9 @@ function addressChanged(text) {
     }
 }
 
-function registerChanged(text) {
-    if (isNaN(parseFloat(text.value)) ) {
-        text.value = text.oldValue;
+function registerChanged(oldvalue, value) {
+    if (isNaN(parseFloat(value)) ) {
+        value = oldValue;
     }
 }
 
@@ -181,10 +181,6 @@ async function deleteUser() {
             location.reload();
         }
     });
-}
-
-async function resetPeriod() {
-
 }
 
 function toggkeSelectAll() {
