@@ -61,6 +61,11 @@ td, th {
     border: 1px solid;
 }
 
+th {
+    position: sticky;
+    top: 0;
+}
+
 .commands {
     position:fixed;
     width:100%;
