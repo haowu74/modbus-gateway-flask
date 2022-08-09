@@ -78,7 +78,7 @@ class Gateway:
 
     def loop(self, islocked, e):
         while True:
-            time.sleep(1)
+            time.sleep(0.2)
             if e.isSet():
                 self.load_config()
                 e.clear()
