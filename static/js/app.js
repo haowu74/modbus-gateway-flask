@@ -138,7 +138,7 @@ async function changePassword() {
     let username = document.getElementById("user-to-change-password").innerHTML;
     let password = document.getElementById("new-password").value;
     let repeat = document.getElementById("new-password-repeat").value;
-    if (password !== repeat) {
+    if (password === repeat) {
         await fetch("/changepassword", {
             method: "POST",
             body: JSON.stringify({
