@@ -59,11 +59,19 @@
 		<dialog id="add-new-user-dlg">
 			<p>Add a new user.</p>
 			<form method="dialog">
-                <input type="text" id="new-user-name" placeholder="Username" />
-                <input type="password" id="new-user-password" placeholder="Password" />
-                <input type="password" id="new-user-password-repeat" placeholder="Repeat Password" />
-                <button>Cancel</button>
-				<button onclick="addNewUser()">OK</button>
+                <div>
+                    <input type="text" id="new-user-name" placeholder="Username" />
+                </div>
+                <div>
+                    <input type="password" id="new-user-password" placeholder="Password" />
+                </div>
+                <div>
+                    <input type="password" id="new-user-password-repeat" placeholder="Repeat Password" />
+                </div>
+                <div>
+                    <button>Cancel</button>
+                    <button onclick="addNewUser()">OK</button>
+                </div>
 			</form>
 		</dialog>
         <dialog id="change-password-dlg">
