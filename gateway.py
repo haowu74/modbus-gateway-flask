@@ -11,6 +11,7 @@ import crcmod
 
 class Gateway:
     def __init__(self, file):
+        self.log_file = 'gateway.log'
         print('init gateway')
         self.file = file
         self.delay_timer = [threading.Timer(0, None)] * 200

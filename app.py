@@ -213,9 +213,10 @@ def check_license():
     return False
 
 if __name__ == '__main__':
+    print("Server started.")
     islocked = not check_license()
     thread = threading.Thread(target=modbus_worker, args=(islocked,))
     thread.daemon = True
-    thread.start()
+    # thread.start()
     app.secret_key = 'isecurity_modbus'
     app.run(debug=True, host='0.0.0.0', port=3000)
