@@ -137,17 +137,26 @@ async function addNewUser() {
 async function changePassword() {
     let username = document.getElementById("user-to-change-password").innerHTML;
     let password = document.getElementById("new-password").value;
-    await fetch("/changepassword", {
-        method: "POST",
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    }).then((res) => {
-        return res.json();
-    }).then((data) => {
-        // change password successful
-    });
+    let repeat = document.getElementById("new-password-repeat").value;
+    if (password !== repeat) {
+        await fetch("/changepassword", {
+            method: "POST",
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then((res) => {
+            return res.json();
+        }).then((data) => {
+            if (data.success) {
+                document.getElementById("change-password-success").showModal();
+            } else {
+                document.getElementById("change-password-failed").showModal();
+            }
+        });
+    } else {
+        document.getElementById("change-password-repeat-failed").showModal();
+    }
 }
 
 async function deleteUser() {
