@@ -188,8 +188,8 @@ def delete_user():
             return jsonify(success=True)
     return jsonify(success=False)
 
-def modbus_worker():
-    gateway.loop()
+def modbus_worker(islocked):
+    gateway.loop(islocked)
 
 def getserial():
     # Extract serial from cpuinfo file
@@ -201,11 +201,19 @@ def getserial():
                     cpuserial = line[10:26]
     except:
         cpuserial = "ERROR000000000"
- 
     return cpuserial
 
+def check_license():
+    # generate public and private key from the ((serial number) combining (our secret ))
+    # encrypt our secret message using public key to get the license number
+    # RPi uses private key to decrypt the license number
+    # save the license code to a license file
+    # every time start the web server, it checks the content of the license file. 
+    return False
+
 if __name__ == '__main__':
-    thread = threading.Thread(target=modbus_worker)
+    islocked = not check_license()
+    thread = threading.Thread(target=modbus_worker, args=(islocked,))
     thread.daemon = True
     thread.start()
     app.secret_key = 'isecurity_modbus'

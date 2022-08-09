@@ -73,7 +73,7 @@ class Gateway:
                 delay = int(units[0]['delay'])
                 self.writeRegister(id, address, register, delay)
 
-    def loop(self):
+    def loop(self, islocked):
         while True:
             time.sleep(1)
             bytes = self.usb.read(100)
