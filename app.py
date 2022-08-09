@@ -190,10 +190,6 @@ def delete_user():
             return jsonify(success=True)
     return jsonify(success=False)
 
-def modbus_worker(islocked):
-    global gateway
-    gateway.loop(islocked)
-
 def getserial():
     # Extract serial from cpuinfo file
     cpuserial = "0000000000000000"
@@ -219,7 +215,7 @@ if __name__ == '__main__':
     print("Server started.")
     gateway = Gateway(config_file)
     islocked = not check_license()
-    thread = threading.Thread(target=modbus_worker, args=(islocked,))
+    thread = threading.Thread(target=gateway.loop, args=(islocked,))
     thread.daemon = True
     thread.start()
     app.secret_key = 'isecurity_modbus'
