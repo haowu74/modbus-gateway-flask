@@ -20,6 +20,8 @@ JWT_KEY = "!s3cur!ty321"
 JWT_ISS = "isecurity.com.au"
 JWT_ALGO = "HS512"
 
+e = threading.Event()
+
 def jwtSign(username):
     rnd = "".join(random.choice("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^_-") for i in range(24))
     now = int(time.time())
@@ -58,14 +60,14 @@ def login():
 @app.route("/")
 @app.route("/config")
 def configure():
-    global gateway
+    # global gateway
     current_user = jwtVerify(request.cookies) 
     if current_user != "":
         units = []
         if exists(config_file):
             with open(config_file, 'r') as f:
                 units = json.load(f)
-                gateway.units = units
+                # gateway.units = units
         is_admin = current_user == "admin"
         return render_template('config.html', units=units, is_admin=is_admin, template_name="Jinja2")
     else:
@@ -89,12 +91,13 @@ def admin():
 
 @app.route("/save", methods=['POST'])
 def save():
-    global gateway
+    # global gateway
     gateway.units.clear()
     units = json.loads(request.data)
     with open(config_file, 'w') as f:
         json.dump(units, f)
-        gateway.units = units
+        e.set()
+        # gateway.units = units
     return jsonify(success=True)
 
 @app.route('/login', methods=['POST'])
@@ -212,11 +215,12 @@ def check_license():
     return False
 
 if __name__ == '__main__':
-    global gateway
+    # global gateway
     print("Server started.")
     gateway = Gateway(config_file)
+    e.set()
     islocked = not check_license()
-    thread = threading.Thread(target=gateway.loop, args=(islocked,))
+    thread = threading.Thread(target=gateway.loop, args=(islocked, e,))
     thread.daemon = True
     thread.start()
     app.secret_key = 'isecurity_modbus'

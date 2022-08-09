@@ -11,6 +11,7 @@ import crcmod
 
 class Gateway:
     def __init__(self, file):
+        self.config_file = "config.json"
         print('init gateway')
         self.file = file
         self.delay_timer = [threading.Timer(0, None)] * 200
@@ -35,11 +36,10 @@ class Gateway:
     def remove_unit(self, unit_id):
         self.unit = list(filter(lambda x: x.unit != unit_id, self.units))
 
-    def load_from_file(self, file):
-        pass
-
-    def save_to_file(self, file):
-        pass
+    def load_config(self):
+        if exists(self.config_file):
+            with open(self.config_file, 'r') as f:
+                self.units = json.load(f)
 
     def clear(self):
         self.units.clear()
@@ -76,9 +76,12 @@ class Gateway:
                 print(f"trigger register = {register}")
                 self.writeRegister(id, address, register, delay)
 
-    def loop(self, islocked):
+    def loop(self, islocked, e):
         while True:
             time.sleep(1)
+            if e.isSet():
+                self.load_config()
+                e.clear()
             bytes = self.usb.read(100)
             if len(bytes) > 0:
                 print('Receiving:' + ' '.join('{:02X}'.format(a) for a in bytes))
