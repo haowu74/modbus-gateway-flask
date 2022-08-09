@@ -90,6 +90,7 @@ def admin():
 @app.route("/save", methods=['POST'])
 def save():
     global gateway
+    units.clear()
     units = json.loads(request.data)
     with open(config_file, 'w') as f:
         json.dump(units, f)
