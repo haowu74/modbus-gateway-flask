@@ -84,10 +84,12 @@ class Gateway:
                 e.clear()
             bytes = self.usb.read(100)
             if len(bytes) >= 9:
-                id = self.getReleaseDoorUnit(bytes)
-                if id > 0:
-                    print('Receiving:' + ' '.join('{:02X}'.format(a) for a in bytes))
-                    self.trigger(id)
+                i = 0
+                while i <= len(bytes)-9:
+                    id = self.getReleaseDoorUnit(bytes[i:9])
+                    if id > 0:
+                        print('Receiving:' + ' '.join('{:02X}'.format(a) for a in bytes))
+                        self.trigger(id)
 
     def isDoorReleaseCommand(self, bytes):
         # 55 AA 00 0C 00 02 01 00 01
