@@ -40,7 +40,7 @@ function addressChanged(text) {
     }
 }
 
-function registerChanged(oldvalue, value) {
+function registerChanged(oldValue, value) {
     if (isNaN(parseFloat(value)) ) {
         value = oldValue;
     }
