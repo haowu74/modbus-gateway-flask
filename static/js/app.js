@@ -119,19 +119,27 @@ async function upload() {
 async function addNewUser() {
     let username = document.getElementById("new-user-name").value;
     let password = document.getElementById("new-user-password").value;
-    await fetch("/addnewuser", {
-        method: "POST",
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    }).then((res) => {
-        return res.json();
-    }).then((data) => {
-        if (data.success) {
-            location.reload();
-        }
-    });
+    let repeat = document.getElementById("new-user-password-repeat").value;
+    if (password === repeat) {
+        await fetch("/addnewuser", {
+            method: "POST",
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then((res) => {
+            return res.json();
+        }).then((data) => {
+            if (data.success) {
+                location.reload();
+            } else {
+                document.getElementById("create-new-user-failed").showModal();
+            }
+        });
+    } else {
+        document.getElementById("change-password-repeat-failed").showModal();
+    }
+    
 };
 
 async function changePassword() {

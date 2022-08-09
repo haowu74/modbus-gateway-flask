@@ -24,14 +24,14 @@
                         <p class="username-para">{{ username }}</p>
                     </td>
                     <td>
-                        <input type="button" value="Password" class="password-button" onclick="(()=>{
+                        <input type="button" value="Set New Password" class="password-button" onclick="(()=>{
                                 document.getElementById('user-to-change-password').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
                                 document.getElementById('change-password-dlg').showModal(); 
                             })()"/>
                     </td>
                     <td>
                         {% if username != 'admin' %}
-                        <input type="button" value="Delete" class="delete-user" onclick="(()=>{
+                        <input type="button" value="Delete User" class="delete-user" onclick="(()=>{
                                 document.getElementById('user-to-delete').innerHTML = this.parentElement.parentElement.getElementsByClassName('username-para')[0].innerHTML;
                                 document.getElementById('delete-user-dlg').showModal()
                             })()"/>
@@ -137,6 +137,14 @@
         </dialog>
         <dialog id="change-password-repeat-failed">
             <p>You typed in different passwords.</p>
+            <form method="dialog">
+                <div>
+                    <button>OK</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="create-new-user-failed">
+            <p>Creating New User is failed.</p>
             <form method="dialog">
                 <div>
                     <button>OK</button>
