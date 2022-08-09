@@ -35,19 +35,19 @@ function save(button) {
 }
 
 function addressChanged(text) {
-    if (isNaN(parseFloat(text.value)) || text.value <= 0) {
+    if (isNaN(parseInt(text.value)) || text.value <= 0) {
         text.value = text.oldValue;
     }
 }
 
 function registerChanged(text) {
-    if (isNaN(parseFloat(text.value)) || text.value < 0) {
+    if (isNaN(parseInt(text.value)) || text.value < 0) {
         text.value = text.oldValue;
     }
 }
 
 function delayChanged(text) {
-    if (isNaN(parseFloat(text.value)) || text.value <= 0) {
+    if (isNaN(parseInt(text.value)) || text.value <= 0) {
         text.value = text.oldValue;
     }   
 }
