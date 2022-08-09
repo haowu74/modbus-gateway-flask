@@ -11,7 +11,6 @@ import crcmod
 
 class Gateway:
     def __init__(self, file):
-        self.log_file = 'gateway.log'
         print('init gateway')
         self.file = file
         self.delay_timer = [threading.Timer(0, None)] * 200
@@ -74,6 +73,7 @@ class Gateway:
                 address = int(units[0]['address'])
                 register = int(units[0]['register'])
                 delay = int(units[0]['delay'])
+                print(f"trigger register = {register}")
                 self.writeRegister(id, address, register, delay)
 
     def loop(self, islocked):
