@@ -37,19 +37,25 @@ function save(button) {
 function addressChanged(text) {
     if (isNaN(parseInt(text.value)) || text.value <= 0) {
         text.value = text.oldValue;
+    } else {
+        text.value = parseInt(text.value);
     }
 }
 
 function registerChanged(text) {
     if (isNaN(parseInt(text.value)) || text.value < 0) {
         text.value = text.oldValue;
+    } else {
+        text.value = parseInt(text.value);
     }
 }
 
 function delayChanged(text) {
     if (isNaN(parseInt(text.value)) || text.value <= 0) {
         text.value = text.oldValue;
-    }   
+    } else {
+        text.value = parseInt(text.value);
+    } 
 }
 
 function unitSelected(checkbox) {
