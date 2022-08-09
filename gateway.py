@@ -90,7 +90,9 @@ class Gateway:
                     if id > 0:
                         print('Receiving:' + ' '.join('{:02X}'.format(a) for a in bytes))
                         self.trigger(id)
-                    i += 1
+                        i += 9
+                    else:
+                        i += 1
 
     def isDoorReleaseCommand(self, bytes):
         # 55 AA 00 0C 00 02 01 00 01
