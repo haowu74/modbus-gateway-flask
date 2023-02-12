@@ -1,0 +1,63 @@
+---
+- name: Install Flask application with Nginx on Raspberry Pi
+  hosts: raspberrypi
+  become: yes
+  tasks:
+  - name: Install dependencies
+    apt:
+      name:
+        - python3
+        - python3-pip
+        - libffi-dev
+        - libssl-dev
+        - nginx
+    tags: dependencies
+
+  - name: Install virtualenv
+    pip:
+      name: virtualenv
+      state: latest
+    tags: virtualenv
+
+
+  - name: Copy Flask application files
+    copy:
+      src: .
+      dest: /opt/modbus-gateway-flask/
+      mode: 0775
+
+  - name: Create virtual environment 1
+    shell:
+      python3 -m venv /opt/modbus-gateway-flask/venv
+
+  - name: Create virtual environment 2
+    become: no
+    shell:
+      bash -c "source /opt/modbus-gateway-flask/venv/bin/activate"
+
+  - name: Copy pyvenv.cfg
+    copy:
+      src: pyvenv.cfg
+      dest: /opt/modbus-gateway-flask/venv/
+
+  - name: Install requirements
+    pip:
+      requirements: /opt/modbus-gateway-flask/requirements.txt
+
+  - name: Set environment variables
+    shell: |
+      echo "export FLASK_APP=app.py" >> /opt/modbus-gateway-flask/venv/bin/activate
+      echo "export FLASK_ENV=production" >> /opt/modbus-gateway-flask/venv/bin/activate
+
+  - name: Copy service file
+    copy:
+      src: ./flask.service
+      dest: /etc/systemd/system
+
+  - name: Start the service
+    shell: |
+      systemctl daemon-reload
+      systemctl enable flask
+      systemctl start flask
+
+

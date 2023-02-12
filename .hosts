@@ -1,0 +1,11 @@
+[raspberrypi]
+# Add hosts here
+192.168.0.200
+
+
+[raspberrypi:vars]
+# Local variables for Ansible playbooks
+ansible_ssh_user=pi
+ansible_ssh_pass=raspberry
+github_user=haowu74
+app_name=modbus-gateway-flask  # aligned with github repo name
