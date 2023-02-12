@@ -19,7 +19,6 @@
       state: latest
     tags: virtualenv
 
-
   - name: Copy Flask application files
     copy:
       src: .
@@ -54,10 +53,16 @@
       src: ./flask.service
       dest: /etc/systemd/system
 
+  - name: Enable serial port
+    shell: raspi-config nonint do_serial 2
+
   - name: Start the service
     shell: |
       systemctl daemon-reload
       systemctl enable flask
-      systemctl start flask
+
+  - name: Reboot the system
+    ansible.builtin.reboot:
+      reboot_timeout: 3600
 
 
