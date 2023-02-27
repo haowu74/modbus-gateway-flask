@@ -220,8 +220,9 @@ if __name__ == '__main__':
     gateway = Gateway(config_file)
     e.set()
     islocked = not check_license()
-    thread = threading.Thread(target=gateway.loop, args=(islocked, e,))
-    thread.daemon = True
-    thread.start()
+    for usb in gateway.usbs:
+        thread = threading.Thread(target=gateway.loop, args=(usb, islocked, e,))
+        thread.daemon = True
+        thread.start()
     app.secret_key = 'isecurity_modbus'
     app.run(host='0.0.0.0', port=3000)

@@ -5,6 +5,7 @@ import serial
 import serial.rs485
 import RPi.GPIO as GPIO
 import time
+import os
 from os.path import exists
 from flask import json
 import crcmod
@@ -23,7 +24,13 @@ class Gateway:
         else:
             self.units = []
         GPIO.setmode(GPIO.BOARD)
-        self.usb = serial.Serial(port='/dev/ttyUSB0',baudrate=19200,parity=serial.PARITY_NONE, stopbits = 1, bytesize = 8, timeout = 0)
+        self.usbs = []
+        for i in range(4):
+            if os.system(f"ls /dev/ttyUSB{i}") != 0:
+                continue
+            usb_name = f"/dev/ttyUSB{i}"
+            usb_port = serial.Serial(port=usb_name,baudrate=19200,parity=serial.PARITY_NONE, stopbits = 1, bytesize = 8, timeout = 0)
+            self.usbs.append(usb_port)
         GPIO.setup(7, GPIO.OUT, initial=GPIO.HIGH)
         GPIO.output(7, 1)
         self.modbus = serial.rs485.RS485(port='/dev/ttyS0',baudrate=0)
@@ -76,13 +83,13 @@ class Gateway:
                 print(f"trigger register = {register}")
                 self.writeRegister(id, address, register, delay)
 
-    def loop(self, islocked, e):
+    def loop(self, usb, islocked, e):
         while True:
             time.sleep(0.2)
             if e.isSet():
                 self.load_config()
                 e.clear()
-            bytes = self.usb.read(100)
+            bytes = usb.read(100)
             if len(bytes) >= 9:
                 i = 0
                 while i <= len(bytes)-9:
