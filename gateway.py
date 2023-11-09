@@ -102,9 +102,9 @@ class Gateway:
                         i += 1
 
     def isDoorReleaseCommand(self, bytes):
-        # 55 AA 00 0C 00 02 01 00 01
+        # 55 AA 00 0C 00 02 {door unit address} 00 01
         return bytes[0] == 0x55 and bytes[1] == 0xaa and bytes[2] == 0x0 and bytes[3] == 0xc and \
-            bytes[4] == 0x0 and bytes[5] == 0x2 and bytes[6] == 0x1 and bytes[7] == 0x0 and bytes[8] == 0x1
+            bytes[4] == 0x0 and bytes[5] == 0x2 and (bytes[6] >= 0x1 and bytes[6] <= 0x9) and bytes[7] == 0x0 and bytes[8] == 0x1
 
     def getReleaseDoorUnit(self, bytes):
         if self.isDoorReleaseCommand(bytes):
